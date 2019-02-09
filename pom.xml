@@ -17,13 +17,16 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <assertj.version>3.11.1</assertj.version>
+        <bootstrap.version>4.2.1</bootstrap.version>
         <coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
         <equalsverifier.version>3.1.4</equalsverifier.version>
         <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
+        <jquery.version>3.3.1</jquery.version>
         <junit-jupiter.version>5.3.2</junit-jupiter.version>
         <log4j2.version>2.4.1</log4j2.version>
         <mockito.version>2.23.4</mockito.version>
+        <webjars-servlet.version>1.5</webjars-servlet.version>
     </properties>
 
     <dependencies>
@@ -31,6 +34,24 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servlet.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-servlet-2.x</artifactId>
+            <version>${webjars-servlet.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${bootstrap.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>${jquery.version}</version>
         </dependency>
 
         <!--Log4j 2-->
