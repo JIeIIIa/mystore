@@ -20,7 +20,7 @@
 ### Бекенд
 
  * **_Каталог товарів_** (назва, артикул, ціна) - внутрішня колекція що заповнюється при ініціалізації 
-   сервлета `/mystore/shop/items` з csv-файлу в папці `/data` серверу Tomcat. 
+   сервлета `/mystore/shop/items` з csv-файлу в папці `<catalina.home>/data` серверу Tomcat. 
    Каталог має регулярно оновлюватися (замінюватися) окремим процесом з файлу даних кожні 5хв. 
    Вміст каталогу завжди доступний для обробки запитів кліентів. 
    Каталог завжди повністю відповідає вмісту конкретного файлу даних - 
@@ -32,12 +32,18 @@
  * **_Сервлет+JSP_**: `/mystore/shop/basket` - сторінка підтвердження покупки, відображає обрані 
    товари (один чи декілька) з запиту кліента. Сторінка попередньо валідує запит з каталогом
    перед поверненням респонсу, містить кнопку **_Buy_**, в разі якщо запит містить не існуючий 
-   артикул має відобразити його червоним та не використовувати в покупці.
+   артикул має відобразити артикул червоним та не відображати решту даних по такому товару.
+   Неуснуючі артикули не використовувати в покупці.
    
  * **_Сервлет_**: `/mystore/buyService` - приймає запит з списком артикулів, валідує за каталогом, 
    та зберігає їх в файл серверу '/data/order-TIMESTAMP.csv', де 
-   _TIMESTAMP_ - поточний час на сервері. В разі успішного створення файлу сервлет 
-   повертає статус `201`, в разі не існуючого товару `400`, в разі іншої помилки `500`.
+   _TIMESTAMP_ - поточний час на сервері.
+   Валідацію і дані в файл проводити на основі даних, які є на сервері на момент запиту. Ситуацію, коли
+   у клієнта бачив, наприклад, вартість А, а на момент покупки вартість стала В (т.я. каталог товарі періодично
+   оновлюється) не враховуємо.    
+   В разі успішного створення файлу сервлет повертає статус `201`, 
+   в разі не існуючого товару `400`, 
+   в разі іншої помилки `500`.
    Сюди товар має прийти тіки той що є в каталозі, але якщо інше - то всю покупку відхиляємо.
 
 ### Фронтенд
@@ -67,3 +73,62 @@
 
 Стиль сторінок оформи простим **CSS** - вирівнювання та відступи, 
 щоб було приглядно на різних розмірах сторінки (responsive по можливості).
+
+## Prerequisites
+For building and running the application you need:
+* [JDK 8](https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html)
+* [Git Guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+* Maven 3.5.3 or later ([Installing Apache Maven](https://maven.apache.org/install.html))
+* [Tomcat 8](https://tomcat.apache.org/download-80.cgi) or later
+
+## Installing
+
+### Clone repository
+Clone this repository onto your local machine. You can do it like this:
+```shell
+$ git clone https://github.com/JIeIIIa/mystore
+```
+
+### Compile
+Open a terminal, change a directory to the project root directory, run:
+```shell
+$ mvn clean install
+```
+After that you will see `mystore.war` at `<project root directory>/target`
+
+## Running the application using the command-line
+
+This project can be built with [Apache Maven](http://maven.apache.org/).
+
+Use the following steps to run the application locally:
+
+1. Execute next Maven goals to create the `target/mystore.war` file:
+   ```bash
+   $ mvn clean install
+   ```
+2. Deploy the created file `mystore.war` by simply dropping it into 
+   the `$CATALINA_HOME\webapps` directory of any Tomcat instance, 
+   where `$CATALINA_HOME` is the Tomcat’s installation directory.
+3. By default the application will be available at `http://localhost:8080/mystore`
+
+## Troubleshooting 
+
+* Make sure that you are using java 8, and that maven version is appropriate.
+  ```shell
+  mvn -v
+  ```
+  should return something like:
+  ```
+  Apache Maven 3.5.3
+  Maven home: C:\Program Files\Maven\bin\..
+  Java version: 1.8.0_192, vendor: Oracle Corporation
+  Java home: C:\Program Files\Java\jdk1.8.0_192\jre
+  ```
+
+* Make sure that Tomcat is running. 
+  We can start the Tomcat server by simply running the startup script located 
+  at `$CATALINA_HOME\bin\startup`. There is a .bat and a .sh in every installation.                                    
+  Choose the appropriate option depending on whether you are using a Windows 
+  or Unix based operating system.
+  
+* Make sure that the context path of the application is `/mystore`
