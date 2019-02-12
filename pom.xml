@@ -6,7 +6,7 @@
 
     <groupId>com.gmail.onishchenko.oleksii.store</groupId>
     <artifactId>mystore</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.RELEASE</version>
     <packaging>war</packaging>
 
     <name>simple-store - test task</name>
