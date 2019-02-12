@@ -1,6 +1,7 @@
 package com.onishchenko.oleksii.mystore.service;
 
 import com.onishchenko.oleksii.mystore.dao.ProductDao;
+import com.onishchenko.oleksii.mystore.dto.ValidatedProductDto;
 import com.onishchenko.oleksii.mystore.entity.Product;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
@@ -21,11 +22,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -76,13 +78,70 @@ class ProductServiceImplTest {
                     IntStream.range(1, 10)
                             .boxed()
                             .map(i -> new Product("vc-" + i, "name_" + i, i * i * i))
-                            .collect(Collectors.toList()));
+                            .collect(toList()));
 
             //When
             boolean result = instance.validateAll("vc-4", "vc-111", "vc-10");
 
             //Then
             assertThat(result).isFalse();
+        }
+    }
+
+    @DisplayName(value = "boolean validateAll(String...)")
+    @Nested
+    class ValidatedProducts {
+        @Test
+        void parameterIsEmptyArray() {
+            //When
+            List<ValidatedProductDto> result = instance.validatedProducts();
+
+            //Then
+            assertThat(result).isEmpty();
+        }
+
+        @Test
+        void success() {
+            //Given
+            for (int i = 1; i < 10; i++) {
+                when(productDao.findByVendor("vc-" + i)).thenReturn(
+                        Optional.of(new Product("vc-" + i, "name_" + i, i * i * i))
+                );
+            }
+            ValidatedProductDto[] expected = Stream.of(4, 1, 7)
+                    .map(i -> new ValidatedProductDto(
+                            "vc-" + i,
+                            new Product("vc-" + i, "name_" + i, i * i * i))
+                    ).toArray(ValidatedProductDto[]::new);
+
+            //When
+            List<ValidatedProductDto> result = instance.validatedProducts("vc-4", "vc-1", "vc-7");
+
+            //Then
+            assertThat(result).hasSize(3)
+                    .containsOnlyOnce(expected);
+        }
+
+
+        @Test
+        void vendorCodeNotPresent() {
+            //Given
+            when(productDao.findByVendor("vc-4"))
+                    .thenReturn(Optional.of(new Product("vc-4", "name_4", 64)));
+            when(productDao.findByVendor("vc-10"))
+                    .thenReturn(Optional.of(new Product("vc-10", "name_10", 1000)));
+            ValidatedProductDto[] expected = {
+                    new ValidatedProductDto("vc-4", new Product("vc-4", "name_4", 64)),
+                    new ValidatedProductDto("vc-111", null),
+                    new ValidatedProductDto("vc-10", new Product("vc-10", "name_10", 1000))
+            };
+
+            //When
+            List<ValidatedProductDto> result = instance.validatedProducts("vc-4", "vc-111", "vc-10");
+
+            //Then
+            assertThat(result).hasSize(3)
+                    .containsOnlyOnce(expected);
         }
     }
 
@@ -94,20 +153,26 @@ class ProductServiceImplTest {
                 IntStream.range(1, 10)
                         .boxed()
                         .map(i -> new Product("vc-" + i, "name_" + i, i * i * i))
-                        .collect(Collectors.toList()));
+                        .collect(toList()));
 
         //When
-        List<Product> result = instance.findAll();
+        List<ValidatedProductDto> result = instance.findAll();
 
         //Then
         assertThat(result).containsExactly(
                 IntStream.range(1, 10)
                         .boxed()
-                        .map(i -> new Product("vc-" + i, "name_" + i, i * i * i))
-                        .toArray(Product[]::new)
+                        .map(this::createValidatedProductDto)
+                        .toArray(ValidatedProductDto[]::new)
         );
         verify(productDao, times(1)).findAll();
         verifyNoMoreInteractions(productDao);
+    }
+
+    private ValidatedProductDto createValidatedProductDto(Integer i) {
+        return new ValidatedProductDto(
+                "vc-" + i,
+                new Product("vc-" + i, "name_" + i, i * i * i));
     }
 
     @DisplayName(value = "void saveOrder(List<Product>)")

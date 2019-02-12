@@ -1,6 +1,6 @@
 package com.onishchenko.oleksii.mystore.service;
 
-import com.onishchenko.oleksii.mystore.entity.Product;
+import com.onishchenko.oleksii.mystore.dto.ValidatedProductDto;
 
 import java.util.List;
 
@@ -15,14 +15,27 @@ public interface ProductService {
      *
      * @return a list of available products
      */
-    List<Product> findAll();
+    List<ValidatedProductDto> findAll();
 
     /**
      * Validate vendor codes by available products
      *
      * @param vendorCodes a list of vendor codes for validation
+     * @return <code>true</code> if and only if all vendor code
+     * are valid; <code>false</code> otherwise.
      */
     boolean validateAll(String... vendorCodes);
+
+    /**
+     * Validate vendor codes by available products
+     *
+     * @param vendorCodes a list of vendor codes for validation
+     * @return list of {@link ValidatedProductDto} objects. Each element
+     * of this list encapsulates a vendor code and product with the vendor code
+     * if the vendor code presents in the product list$
+     * encapsulates a vendor code and <code>null</code> otherwise
+     */
+    List<ValidatedProductDto> validatedProducts(String... vendorCodes);
 
     /**
      * Make a purchase based on vendor codes

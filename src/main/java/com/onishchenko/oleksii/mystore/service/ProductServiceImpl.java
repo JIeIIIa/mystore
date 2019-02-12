@@ -1,6 +1,7 @@
 package com.onishchenko.oleksii.mystore.service;
 
 import com.onishchenko.oleksii.mystore.dao.ProductDao;
+import com.onishchenko.oleksii.mystore.dto.ValidatedProductDto;
 import com.onishchenko.oleksii.mystore.entity.Product;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
@@ -63,17 +64,22 @@ public class ProductServiceImpl implements ProductService {
     /**
      * Find all available products
      *
-     * @return a list of available products
+     * @return a list of available products as a Data Transfer Objects list
      */
     @Override
-    public List<Product> findAll() {
-        return productDao.findAll();
+    public List<ValidatedProductDto> findAll() {
+        return productDao.findAll()
+                .stream()
+                .map(p -> new ValidatedProductDto(p.getVendorCode(), p))
+                .collect(toList());
     }
 
     /**
      * Validate vendor codes by available products
      *
      * @param vendorCodes a list of vendor codes for validation
+     * @return <code>true</code> if and only if all vendor code
+     * are valid; <code>false</code> otherwise.
      * @throws IllegalArgumentException if a list of vendor codes is empty
      */
     @Override
@@ -83,6 +89,25 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return vendorCodes.length == mapVendorCodesToProducts(vendorCodes).size();
+    }
+
+    /**
+     * Validate vendor codes by available products
+     *
+     * @param vendorCodes a list of vendor codes for validation
+     * @return list of {@link ValidatedProductDto} objects. Each element
+     * of this list encapsulates a vendor code and product with the vendor code
+     * if the vendor code presents in the product list$
+     * encapsulates a vendor code and <code>null</code> otherwise
+     */
+    @Override
+    public List<ValidatedProductDto> validatedProducts(String... vendorCodes) {
+        return Arrays.stream(vendorCodes)
+                .map(vc -> new ValidatedProductDto(
+                        vc,
+                        productDao.findByVendor(vc).orElse(null))
+                )
+                .collect(toList());
     }
 
     /**
