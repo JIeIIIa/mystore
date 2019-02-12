@@ -10,10 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/shop", loadOnStartup = 0)
+@WebServlet(urlPatterns = "/shop")
 public class ShopServlet extends HttpServlet {
     private static final Logger log = LogManager.getLogger(ShopServlet.class);
 
+    /**
+     * Processing GET request to '/shop'
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.debug("Load shop.html");

@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>my:Store) - Products list</title>
+    <title>my:Store) - Page not found</title>
     <link rel="stylesheet" href="/mystore/webjars/bootstrap/4.2.1/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/mystore/css/main.css"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
-    <a class="navbar-brand" href="/mystore">my:Store)</a>
+    <a class="navbar-brand brand" href="/mystore">my:Store)</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
             aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -19,37 +19,32 @@
             <li class="nav-item">
                 <a class="nav-link" href="/mystore">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link disabled" href="/mystore/shop">Products</a>
+            <li class="nav-item">
+                <a class="nav-link" href="/mystore/shop">Products</a>
             </li>
         </ul>
     </div>
 </nav>
 
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-10 col-md-8 col-lg-6 text-center">
+<div class="container-fluid d-flex justify-content-center align-items-center"
+     id="content-wrapper">
+    <div class="row w-100 justify-content-center">
+        <div>
             <div class="row">
-                <div class="col-12">
-                    <h1 class="text-primary">Products list</h1>
-                </div>
-            </div>
-            <span id="products-table"></span>
-            <div class="row justify-content-end">
-                <div class="col-4">
-                    <form method="get" action="/mystore/shop/basket" onsubmit="return doSubmit()">
-                        <input type="text" class="d-none" id="items" name="items" value=""/>
-                        <button type="submit" class="btn btn-primary w-100" id="to-basket">To basket</button>
-                    </form>
+                <div class="col-12 text-center">
+                    <div class="text-danger font-weight-bold error-code">404</div>
+                    <h1>
+                        Looks like the page was not found on the server.
+                    </h1>
                 </div>
             </div>
         </div>
 
     </div>
+
 </div>
 <script src="/mystore/webjars/jquery/3.3.1/jquery.min.js"></script>
 <script src="/mystore/webjars/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="/mystore/webjars/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-<script src="/mystore/js/shop.js"></script>
 </body>
 </html>

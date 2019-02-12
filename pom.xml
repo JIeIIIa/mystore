@@ -23,10 +23,12 @@
         <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
         <jquery.version>3.3.1</jquery.version>
+        <jstl.version>1.2</jstl.version>
         <junit-jupiter.version>5.4.0</junit-jupiter.version>
         <log4j2.version>2.4.1</log4j2.version>
         <mockito.version>2.23.4</mockito.version>
         <opencsv.version>4.4</opencsv.version>
+        <taglibs.standard.version>1.1.2</taglibs.standard.version>
         <webjars-servlet.version>1.5</webjars-servlet.version>
     </properties>
 
@@ -35,6 +37,17 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servlet.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>${taglibs.standard.version}</version>
         </dependency>
 
         <dependency>

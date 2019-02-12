@@ -10,10 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The service to display information about success purchases
+ */
 @WebServlet(urlPatterns = "/shop/success")
 public class SuccessServlet extends HttpServlet {
     private static final Logger log = LogManager.getLogger(SuccessServlet.class);
 
+    /**
+     * Processing GET request to 'shop/success'
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.debug("Load success.html");

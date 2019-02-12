@@ -28,3 +28,7 @@ body {
 #content-wrapper .text {
     font-size: 60px;
 }
+
+.error-code {
+    font-size: 7rem;
+}

@@ -10,10 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "", loadOnStartup = 0)
+/**
+ * The service to display start page
+ */
+@WebServlet(urlPatterns = "")
 public class WelcomeServlet extends HttpServlet {
     private static final Logger log = LogManager.getLogger(WelcomeServlet.class);
 
+    /**
+     * Processing GET request to '/'
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.debug("Load welcome page: home.html");

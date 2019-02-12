@@ -1,9 +1,13 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>my:Store) - Products list</title>
+    <title>my:Store) - Basket</title>
     <link rel="stylesheet" href="/mystore/webjars/bootstrap/4.2.1/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/mystore/css/main.css"/>
 </head>
@@ -19,7 +23,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="/mystore">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link disabled" href="/mystore/shop">Products</a>
             </li>
         </ul>
@@ -31,16 +35,13 @@
         <div class="col-10 col-md-8 col-lg-6 text-center">
             <div class="row">
                 <div class="col-12">
-                    <h1 class="text-primary">Products list</h1>
+                    <h1 class="text-primary">Basket</h1>
                 </div>
             </div>
-            <span id="products-table"></span>
+            <jsp:include page="products.jsp"/>
             <div class="row justify-content-end">
                 <div class="col-4">
-                    <form method="get" action="/mystore/shop/basket" onsubmit="return doSubmit()">
-                        <input type="text" class="d-none" id="items" name="items" value=""/>
-                        <button type="submit" class="btn btn-primary w-100" id="to-basket">To basket</button>
-                    </form>
+                    <button type="button" class="btn btn-primary w-100" id="buy">Buy</button>
                 </div>
             </div>
         </div>
@@ -50,6 +51,6 @@
 <script src="/mystore/webjars/jquery/3.3.1/jquery.min.js"></script>
 <script src="/mystore/webjars/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="/mystore/webjars/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-<script src="/mystore/js/shop.js"></script>
+<script src="/mystore/js/basket.js"></script>
 </body>
 </html>
