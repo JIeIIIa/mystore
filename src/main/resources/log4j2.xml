@@ -12,7 +12,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="com.gmail.onishchenko.oleksii.mystore" level="debug" additivity="false">
+        <Logger name="com.onishchenko.oleksii.mystore" level="debug" additivity="false">
             <AppenderRef ref="ConsoleAppender"/>
         </Logger>
 
